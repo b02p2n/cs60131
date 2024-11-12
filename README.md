@@ -1,1 +1,41 @@
-# cs60131
+java c
+Intro to Image Understanding (CSC420) 
+Assignment 4 
+Due Date: November 25th , 2024, 10:59 pm 
+Total:  160 marks 
+General Instructions: 
+• You are allowed  (and encouraged) to search the web and use LLMs for learning, as explained in the syllabus.  You are, however, not allowed to ask an LLM to write the answers or code for you!
+• You are allowed to work directly with one other person to discuss the questions. How- ever, the implementation and the report should be your own original work; i.e.  you should not submit identical documents or codes.  If you choose to work with someone else, write your teammate’s name on top of the first page of the report.
+• Your submission should be in the form. of an electronic report (PDF), with the answers to the specific questions (each question separately), and a presentation and discussion of your results. For this, please submit a file called report.pdf to MarkUs directly.
+•  Submit documented codes that you have written to generate your results separately. Please store all of those files in a folder called assignment4, zip the folder, and then submit the file assignment4.zip to MarkUs.  You should include a README.txt file (inside the folder) which details how to run the submitted codes.
+•  Do not worry if you realize you made a mistake after submitting your zip file; you can submit multiple times on MarkUs.
+• MarkUs has a file size limit. If your pdfor zip file is larger than the limit, you can try resizing or reducing the resolution of images in your report to reduce the file size. If that does not work, you can split your report into multiple files (e.g.  Report part   1 of 3.pdf, Report part 2 of 3.pdf, etc.)
+Part I: Theoretical Problems (100 marks) 
+[Question 1] RANSAC (10 marks) We have two images of a planar object (e.g. a painting) taken from different viewpoints and we want to align them. We have used SIFT to find a large number of point correspondences between the two images and visually estimate that at least 70% of these matches are correct with only small potential inaccuracies. We want to find the true transformation between the two images with a probability greater than 99.5%.
+1. (5 marks) Calculate the number of iterations needed for fitting a homography.
+2. (5 marks) Without calculating,  briefly explain whether you think fitting an affine transformation would require fewer or more RANSAC iterations and why.
+[Question 2] Single View Metrology (15 marks) 
+Given the streetcar picture below, calculate the distance between the two tracks. We know that the distance between the rails in each track is (approximately) 1.5 metres.
+
+Hint:  We know ratios  (of lengths or  areas) are not preserved in perspective projection. But cross-ratios are invariant.  But  cross-ratio  is a projective invariant; i.e., it is preserved by the projective transformations.  You can read the formal definition of cross-ratio here: https://en.wikipedia.org/wiki/Cross-ratio. This Numberphile video will also be very helpful in solving this question: https://www.youtube.com/watch?v=ffvojZONF_A.  The figure below illustrates what we know and what we want to measure. 
+
+[Question 3] Camera Models (50 marks) 
+Assume a plane passing through point P0  = [X0 ,  Y0 ,  Z0]T  with normal n.  The corresponding vanishing points for all the lines lying on this plane form. a line called the horizon.  In this question, you are asked to prove the existence of the horizon line by following the steps below: 1. (15 marks) Find the pixel coordinates of the vanishing point corresponding to a line
+L, passing point P0  and going along direction d.
+Hint: P = P0 +td are the points online L, and(p) =  are pixel coordinates of the same line in the image, and  where f  is the camera focal length and (px , py ) is the principal point.2. (15 marks) Prove the vanishing points of all the lines lying on the plane form. a line.Hint:  all the  lines on the plane are perpendicular to the plane’s normal n;  that is,n .d = 0, or nx dx  + ny dy + nz dz  = 03. (10 marks) Prove that oarallel planes in 3D have the same horizon line in the image.4. (10 marks) In the picture below, 代 写Intro to Image Understanding (CSC420) Assignment 4R
+代做程序编程语言which is higher: the camera that took this picture, the parachute, or the parachuter? Clearly explain and justify your answer. 
+[Question 4] Camera Models (25 marks) We have taken a picture of a cube and have found the 3 vanishing points associated with the cube edges. Using these vanishing points (let’s call themv1, v2 , and v3 ), find the rotation ma- trix R that relates the 3D camera coordinate frame. with the world coordinate frame. aligned with the edges of the cube. Hint: The world coordinate frame. and a camera coordinate frame. are related through a rotation matrix R and a translation vector t.  That is, if Xw  is a 3D point expressed in the world coordinate system, the same 3D point has coordinates Xc  in the camera frame, where Xc  = R  Xl  +t. Here, we want to find the rotation matrix R. Assume v1  is the vanishing point associated with cube edges in the x direction, v2  the vanishing point associated with the cube edges in the y  direction, and v3  with the edges in the z  direction.  
+
+Part II: Implementation Tasks (60 marks) 
+[Question 5] Homography and Tracking (60 marks) The goal of this assignment to replace a planar image throughout a video file with another im- age. For this purpose, you can use one of the the attached videos (e.g.  KandinskyBook. mp4 or GalleryGrill . mp4 or HartHousePoster. mp4) and replace one of the images/posters with a headshot of yourself (or any image you would like).   Or,  if you  prefer, you can record your own short video (e.g.  a video showing a billboard) and replace the advertisement in the billboard with a picture of yourself (or any image you would like).   For  example,  if you use KandinskyBook. mp4, then replace the top-left panel with an image of your choos- ing.   If you  use  GalleryGrill. mp4,  replace the poster for  Gallery Grill,  and if you use HartHousePoster. mp4, replace the Hart House poster.
+You can use any approach you like to implement this task.  This question gives you an opportunity to use any of the techniques you’ve learned in this class to solve the problem.
+For example, you can also take ideas from the SIFT/affine transformation tutorial and modify the tutorial code to achieve the desired objective in this assignment.  Alternatively, the following steps are provided as a suggestion and provide another way of implementing this objective. You are welcome to alter them or use your own innovative ideas; i.e. you can use any method that you wish, as long as it doesn’t require manually annotating anything other than the first frame. of the given video!  As with all the coding assignments, you are allowed to use tutorial code or any code samples you find online as starter code; but make sure you acknowledge all your sources.
+1.  Locate the 4 corners of the top-left panel:  you  can  do this however you like, either manually  (mouse  cursor coordinates) or semi-automatically using the Harris corner detector to detect a number of corners and then manually choosing the 4 you need.
+2.  Use camshift or meanshift or SIFT or whatever method you like to track the location of each of the 4 corners throughout the video.  Visualize the tracked points to make sure they are correct or to identify the frames at which tracking fails. Make sure your report contains details of which algorithms/methods you used in each step.
+3. At each frame, find the homography that maps the 4 corners of your headshot with the 4 corners of the top-left panel. Use this homography to replace the top-left panel with your headshot. This suggested approach will probably not work very well and will only generate mediocre results. So you’ll need to modify it or come up with your own ideas to get good results. 
+4.  Save and submit the resulting video.Submit your output video as well as a description of the steps you used in your report. We are not expecting perfect results and will accept cases in which the output is a bit noisy or off a little bit once in a while. If your results are not as good as you were hoping, discuss the failure modes, the challenges in implementing this, and any interesting observation you find.
+
+
+
+         
+加QQ：99515681  WX：codinghelp  Email: 99515681@qq.com
